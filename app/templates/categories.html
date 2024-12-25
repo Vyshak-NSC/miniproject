@@ -1,0 +1,113 @@
+{% extends "base.html" %}
+{% block content %}
+    <button type="button" class="btn btn-dark" data-toggle="modal" data-target="#popup"     style="margin: 10px; border-radius: 20px; width: 200px; height: 150px;font-size:25px;">
+        <span aria-hidden="true">
+            Add Category
+            <i class="fa-solid fa-plus" style="color: white;"></i>
+        </span>
+    </button>
+    {% for item in categories %}
+        <button id="newCategoryBtn" 
+                class="btn btn-dark text-center text-capitalize" 
+                onclick="editCategory('{{ item.id }}', '{{ item.name }}', '{{ item.value }}')"
+                style="margin: 10px; border-radius: 20px; width: 200px; height: 150px;font-size:25px;">
+            <span aria-hidden="true">{{ item.name }} <br> {{item.value}}</span>
+            <span>
+        </button>
+    {% endfor %}
+
+    <!-- Modal -->
+    <div class="modal fade" id="popup" tabindex="-1" role="dialog" aria-labelledby="popupLabel"
+        aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="popupLabel">New Category</h5>
+                    <button type="button" class="close btn-dark" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form action="/add_category" class="addForm" method="post">
+                        <label for="name">Category Name:</label>
+                        <input type="text" name="name" required><br>
+                        <label for="value">Value:</label>
+                        <input type="number" name="value" required><br>
+                        <label for="expense-type">Expense Type:</label>
+                        <select id="exp_type" class="exp_type" name="exp_type" required>
+                            <option value="spent">Spent</option>
+                            <option value="earned">Earned</option>
+                        </select>
+                    
+                
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                            <button type="submit" class="btn btn-primary">Save changes</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Edit -->
+    <div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-labelledby="editModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="editModalLabel">Edit Category Value</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form id="editForm" class="editForm" action="/edit_category" method="post">
+                        {{edit_cat_form.name.label }}
+                        {{edit_cat_form.name(id='newName') }}
+
+                        {{edit_cat_form.value.label }}
+                        {{edit_cat_form.value(id='newValue') }}
+                        
+                        {{edit_cat_form.addval.label }}
+                        {{edit_cat_form.addval(id='addValue') }}
+
+                        {{edit_cat_form.exp_type.label }}
+                        {{edit_cat_form.exp_type(id='newExp_type') }}
+                        
+                        <input type="hidden" id="categoryId" name="id">
+                    
+                    <div class="modal-footer">
+                        <button type="submit" class="btn btn-danger" name="action" value="delete">Delete</button>
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                        <button type="submit" class="btn btn-primary" name="action" value="save">Save changes</button>
+                    </div>
+                </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+        function editCategory(id, name, value, exp_type) {
+            document.getElementById('newName').value = name;
+            document.getElementById('newValue').value = value;
+
+            var expTypeSelect = document.getElementById('newExp_type');
+            for (var i = 0; i < expTypeSelect.options.length; i++) {
+                if (expTypeSelect.options[i].value === exp_type) {
+                    expTypeSelect.selectedIndex = i;
+                    break;
+                }
+            }
+
+            document.getElementById('categoryId').value = id;
+            $('#editModal').modal('show');
+        }
+
+        function submitForm() {
+            document.getElementById('editForm').submit();
+        }
+    </script>
+
+
+
+{% endblock %}

@@ -1,0 +1,24 @@
+{% extends "base.html" %}
+
+{% block content %}
+<div class="container mt-4">
+    <div class="row row-cols-1 row-cols-md-3">
+        {% for title, details in articles.items() %}
+            {% if title != '[Removed]' %}
+                <div class="col mb-4">
+                    <div class="card bg-secondary h-100 d-flex flex-column">
+                        <div class="card-body">
+                            <h5 class="card-title  font-size-14">{{ title }}</h5>
+                            <hr />
+                            <p class="card-text fw-bold text-dark font-size-12">{{ details.description }}</p>
+                        </div>
+                        <div class="mt-auto px-3 pb-3">
+                            <a href="{{ details.url }}" class="btn btn-primary btn-block">Read More</a>
+                        </div>
+                    </div>
+                </div>
+            {% endif %}
+        {% endfor %}
+    </div>
+</div>
+{% endblock %}

@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <meta charset="UTF-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1.0">
+        <title>Finance Management System</title>
+        
+        <!-- Bootstrap CSS -->
+        <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0-alpha1/dist/css/bootstrap.min.css" rel="stylesheet">
+        <link rel="stylesheet" href="{{ url_for('static', filename='../static/css/styles.css') }}">
+        <link rel="stylesheet" href="{{ url_for('static', filename='../static/css/style.css') }}">
+        <link rel="stylesheet" href="{{ url_for('static', filename='../static/css/extrastyles.css') }}">
+    </head>
+    <body>
+        {% block nav %}
+        <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+            <div class="container">
+                <a class="navbar-brand" href="#">Finance Management System</a>
+                <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarNav"
+                    aria-controls="navbarNav" aria-expanded="false" aria-label="Toggle navigation">
+                    <span class="navbar-toggler-icon"></span>
+                </button>
+                <div class="collapse navbar-collapse" id="navbarNav">
+                    <ul class="navbar-nav">
+                        <li class="btn-light nav-item ">
+                            <a class="nav-link btn btn-primary me-2 btn-dark {{ 'active' if request.endpoint == 'dashboard' else '' }}" style="font-size: 0.875rem; padding: 0.25rem 0.5rem;" href="{{ url_for('dashboard') }}">Dashboard</a>
+                        </li>
+                        <li class="nav-item ">
+                            <a class="nav-link btn btn-primary me-2 btn-dark {{ 'active' if request.endpoint == 'categories' else '' }}" style="font-size: 0.875rem; padding: 0.25rem 0.5rem;" href="{{ url_for('categories') }}">Categories</a>
+                        </li>
+                        <li class="nav-item ">
+                            <a class="nav-link btn btn-primary me-2 btn-dark {{ 'active' if request.endpoint == 'articles' else '' }}" style="font-size: 0.875rem; padding: 0.25rem 0.5rem;" href="{{ url_for('articles') }}">Article</a>
+                        </li>
+                        <li class="nav-item ">
+                            <a class="nav-link btn btn-primary me-2 btn-dark {{ 'active' if request.endpoint == 'target' else '' }}" style="font-size: 0.875rem; padding: 0.25rem 0.5rem;" href="{{ url_for('target') }}">Limit</a>
+                        </li>
+                        <li class="nav-item ">
+                            <a class="nav-link btn btn-primary me-2 btn-dark {{ 'active' if request.endpoint == 'services' else '' }}" style="font-size: 0.875rem; padding: 0.25rem 0.5rem;" href="{{ url_for('services') }}">Services</a>
+                        </li>
+                        <li class="nav-item ">
+                            <a class="nav-link btn btn-primary me-2 btn-dark {{ 'active' if request.endpoint == 'about' else '' }}" style="font-size: 0.875rem; padding: 0.25rem 0.5rem;" href="{{ url_for('about') }}">About us</a>
+                        </li>
+                        
+                    </ul>
+                        <ul class="navbar-nav ms-auto">
+                            <li class="nav-item">
+                                {% if current_user.is_authenticated  %}
+                                <a class="nav-link btn btn-primary me-2 btn-danger" style="font-size: 0.875rem; padding: 0.25rem 0.5rem;" href="{{ url_for('logout') }}">Logout</a>
+                                {% endif %}
+                            </li>
+                        </ul>
+                        
+                </div>
+                <!-- {% if current_user %}
+                    <ul class="navbar-nav ms-auto">
+                        <li class="nav-item" style="display: flex; flex-direction: row">
+                            <button class="nav-link btn btn-primary me-2" data-toggle="modal" data-target="#notification"
+                            
+                            style="font-size: 0.875rem; padding: 0.25rem 0.5rem; " >
+                            Notification
+                            </button>
+                        </li>
+                    </ul>
+                {% endif %} -->
+            </div>
+        </nav>
+
+
+        <div class="modal fade" tabindex="-1" id="notification" role="dialog" aria-labelledby="profileLabel" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+                <div class="profile-modal-content">
+                    <div class="modal-header">
+                        <h5 class="modal-title" id="profileLabel">
+                            Notifications
+                        </h5>
+                    </div>
+                    <div class="modal-body">
+                        <p>You have no new messages</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        {% endblock %}
+        {% block content%}
+        {% endblock %}
+
+        <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.7/umd/popper.min.js"></script>
+        <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/js/bootstrap.min.js"></script>
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.7.0/chart.min.js"></script>
+        <script src="{{ url_for('static', filename='../static/js/script.js') }}"></script>
+    </body>
+</html>

@@ -1,0 +1,51 @@
+.info-icon {
+    display: inline-block;
+    margin-left: 8px;
+    bottom: 5px;
+    cursor: pointer;
+    position: relative;
+    font-size: 24px;
+  }
+
+  .tooltip-text {
+    visibility: hidden;
+    width: 200px;
+    font-size: 10px;
+    background-color: rgba(20, 20, 20, 0.8);
+    color: #fff;
+    text-align: center;
+    border-radius: 6px;
+    padding: 5px;
+    position: absolute;
+    z-index: 1;
+    bottom: 125%; /* Position the tooltip above the icon */
+    left: 50%;
+    margin-left: -90px; /* Offset width by half to center */
+    opacity: 0;
+    transition: opacity 0.3s;
+  }
+
+  .tooltip-text::after {
+    content: '';
+    position: absolute;
+    top: 100%; /* Arrow pointing downwards */
+    left: 50%;
+    margin-left: -5px;
+    border-width: 5px;
+    border-style: solid;
+    border-color: rgba(20, 20, 20, 1);
+  }
+
+  .info-icon:hover .tooltip-text {
+    visibility: visible;
+    opacity: 1;
+  }
+
+  .navbar li.active {
+    background-color: #007bff; /* Change this to the color you want */
+    color: white; /* Change this to the text color you want */
+}
+
+/* .navbar li a {
+    color: inherit;
+} */

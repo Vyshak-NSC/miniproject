@@ -1,0 +1,91 @@
+{% extends "base.html" %}
+{% block content %}
+    <button type="button" class="btn btn-dark" data-toggle="modal" data-target="#popup"
+        style="margin: 10px; border-radius: 20px; width: 200px; height: 150px;font-size:25px;">
+        <span aria-hidden="true">
+            Add Limit
+            <i class="fa-solid fa-plus" style="color: white;"></i>
+        </span>
+    </button>
+    {% for target in target_table %}
+    <button id="newCategoryBtn" class="btn btn-dark text-center text-capitalize"
+        onclick="editTarget('{{ target.id }}', '{{ target.ttype }}', '{{ target.value }}')"
+        style="margin: 10px; border-radius: 20px; width: 200px; height: 150px;font-size:25px;">
+        <span aria-hidden="true">{{ target.name }}</span><br />
+        <span aria-hidden="true">{{ target.value }}</span><br />
+    </button>
+    {% endfor %}
+
+    <!-- New -->
+    <div class="modal fade" id="popup" tabindex="-1" role="dialog" aria-labelledby="popupLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="popupLabel">New Limit</h5>
+                    <button type="button" class="close btn-dark" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form action="/set_target" class="addForm" method="post">
+                        <label for="ttype">Limit Name:</label>
+                        {{ target_form.name(id="ttype")}}
+                        <label for="value">Value:</label>
+                        {{ target_form.value(id="value")}}
+                        
+                        <div class="modal-footer">
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                            <button type="submit" class="btn btn-primary">Save changes</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <!-- Edit -->
+    <div class="modal fade" id="editModal" tabindex="-1" role="dialog" aria-labelledby="editModalLabel" aria-hidden="true">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h5 class="modal-title" id="editModalLabel">Edit Limit</h5>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                    </button>
+                </div>
+                <div class="modal-body">
+                    <form id="editForm" class="editForm" action="/edit_target" method="post">
+                        <label for="newtype">Edit Name:</label>
+                        <input type="text" id="newtype" name="name" />
+
+                        <label for="newValue">New Value:</label>
+                        <input type="number" id="newValue" name="value">
+
+                        <input type="hidden" id="targetId" name="id">
+
+                        <div class="modal-footer">
+                            <button type="submit" class="btn btn-danger" name="action" value="delete">Delete</button>
+                            <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+                            <button type="submit" class="btn btn-primary" name="action" value="save">Save changes</button>
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+    <script>
+        function editTarget(id, ttype, value) {
+            document.getElementById('newtype').value = ttype;
+            document.getElementById('newValue').value = value;
+            document.getElementById('targetId').value = id;
+            $('#editModal').modal('show');
+        }
+
+        function submitForm() {
+            document.getElementById('editForm').submit();
+        }
+    </script>
+
+
+
+{% endblock %}

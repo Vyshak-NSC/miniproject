@@ -1,0 +1,9 @@
+{%extends "base.html" %}
+
+{% block content %}
+    <h2>This is notifications page</h2>
+    <p>List of notification for user: {{username}}: </p>
+    {% for notification in notif %}
+        <p>Msg:{{notification}}</p>
+    {% endfor %}
+{% endblock %}

@@ -1,0 +1,38 @@
+{% extends 'base.html' %}
+
+{% block content %}
+<div class="index-page">
+    <div class="auth-container">
+        <div class="signup">
+            <form action="{{ url_for('signup') }}" method="post">
+                {{ signup_form.csrf_token }}
+                <h1>Sign Up</h1>
+                <hr />
+                {{ signup_form.username.label }}
+                {{ signup_form.username() }}
+
+                {{ signup_form.email.label }}
+                {{ signup_form.email() }}
+
+                {{ signup_form.password.label }}
+                {{ signup_form.password() }}
+                <button class="submit-btn" type="submit">Submit</button>
+            </form>
+        </div>
+        <div class="login">
+            <form action="{{ url_for('login') }}" method="POST">
+                {{ login_form.csrf_token }}
+                <h1>Sign in</h1>
+                <hr />
+                {{ login_form.username.label }}
+                {{ login_form.username() }}
+
+                {{ login_form.password.label }}
+                {{ login_form.password() }}
+                <button class="submit-btn" style="color: rgba(0,0,0,0); background-color: rgba(0,0,0,0);box-shadow: none;"></button>
+                <button class="submit-btn" type="submit">Submit</button>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}

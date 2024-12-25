@@ -1,0 +1,104 @@
+{% extends 'base.html' %}
+{% block content %}
+    <div class="dashboard-container">
+        <h2 class="title">Welcome {{ current_user.username }}</h2>
+        <hr />
+        <div class="dashboard-page">
+            <div class="expense-display" style="display: flex; justify-content: center;">
+                <table class="table table-bordered" style="width:80vw;">
+                    <thead>
+                        <tr>
+                            <th>Name</th>
+                            <th>Expense</th>
+                            <th>Type</th>
+                            <th>Date</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for category in categories %}
+                        <tr>
+                            <td class="text-capitalize">{{ category.name }}</td>
+                            <td>{{ category.value }}</td>
+                            <td>{{ category.exp_type }}</td>
+                            <td>{{ category.date }}</td>
+                            {% endfor %}
+                        </tr>
+                    </tbody>
+                </table>
+
+                <div class="chart">
+                    <canvas id="doughnutChart" class="doughnut" width="400" height="400"></canvas>
+                
+                    <script>
+                        document.addEventListener('DOMContentLoaded', function () {
+                            var ctx = document.getElementById('doughnutChart').getContext('2d');
+                            var categoryData = JSON.parse('{{ category_data | tojson | safe }}');
+
+                            var labels = Object.keys(categoryData);
+                            var data = Object.values(categoryData);
+
+                            var backgroundColors = [
+                                'rgba(255, 99, 132, 0.5)',
+                                'rgba(54, 162, 235, 0.5)',
+                                'rgba(200, 106, 86, 0.5)',
+                                'rgba(75, 192, 192, 0.5)',
+                                'rgba(153, 102, 255, 0.5)'
+                            ];
+
+                            var borderColor = [
+                                'rgba(255, 99, 132, 1)',
+                                'rgba(54, 162, 235, 1)',
+                                'rgba(255, 206, 86, 1)',
+                                'rgba(75, 192, 192, 1)',
+                                'rgba(153, 102, 255, 1)',
+                                'rgba(45, 126, 231, 1)'
+                            ];
+
+                            var config = {
+                                type: 'doughnut',
+                                data: {
+                                    labels: labels,
+                                    datasets: [{
+                                        label: 'Category Data',
+                                        data: data,
+                                        backgroundColor: backgroundColors,
+                                        borderColor: borderColor,
+                                        borderWidth: 1
+                                    }]
+                                },
+                                options: {
+                                    responsive: true
+                                }
+                            };
+
+                            var myChart = new Chart(ctx, config);
+                        });
+                    </script>
+                </div>
+            </div>
+        </div>
+        <div class="expenses content" style="margin-top: 30px;">
+            <div class="spent">Total Spent : {{spent}} </div>
+            <div class="earned">Total Earned : {{earned}}</div>
+            <div class="total-expense" style="display: flex;">
+                {% if earned-spent > 0 %}
+                    <div style="color: green;">Balance Amount : {{earned-spent}}
+                {% elif earned-spent < 0 %}
+                    <div style="color: red;">Balance Amount : {{earned-spent}}
+                {% else %}
+                    <div>Balance Amount : {{ earned-spent }}</div>
+                {% endif %}
+                <span class="info-icon" style="margin-top:10px ;">
+                    <!-- SVG Icon -->
+                    <svg xmlns="http://www.w3.org/2000/svg" width="16" height="16" fill="currentColor" class="bi bi-info-circle" viewBox="0 0 16 16">
+                        <path d="M8 15A7 7 0 1 1 8 1a7 7 0 0 1 0 14m0 1A8 8 0 1 0 8 0a8 8 0 0 0 0 16"/>
+                        <path d="m8.93 6.588-2.29.287-.082.38.45.083c.294.07.352.176.288.469l-.738 3.468c-.194.897.105 1.319.808 1.319.545 0 1.178-.252 1.465-.598l.088-.416c-.2.176-.492.246-.686.246-.275 0-.375-.193-.304-.533zM9 4.5a1 1 0 1 1-2 0 1 1 0 0 1 2 0"/>
+                    </svg>
+                    <!-- Tooltip text -->
+                    <span class="tooltip-text">Negative Denotes Total Spent Exceeding Total Earned</span>
+                </span>
+            </div>
+        </div>
+    </div>
+
+{% endblock %}

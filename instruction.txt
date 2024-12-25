@@ -1,0 +1,16 @@
+SET API KEY:
+1.Create api key at newsapi website.
+2.Copy api key
+3.Open app/extension.py
+4.Paste api key as value of API_KEY variable
+4.Modify query if needed
+
+Configure site:
+1.open config.py
+2.Replace secret key value
+
+To run:
+1.Open terminal
+2.Navigate to fms folder and type 'venv/scripts/activate'
+3.Type 'pip install -r requirements.txt'
+4.Type 'flask run' or 'flask run --debug' for testing
